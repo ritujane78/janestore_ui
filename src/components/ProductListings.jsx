@@ -3,14 +3,17 @@ import ProductCard from './ProductCard'
 
 function ProductListings({products}) {
   return (
-    <div>
-        {products.length > 0 ?
-        products.map(product => (
-            <ProductCard key={product.id} product = {product} />
-        )): 
-            <p className='products-listing-empty'> No products found.</p>
-        }
-    </div>
+        <div className="product-listings-container">
+          <div className="product-listings-grid">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <ProductCard key={product.productId} product={product} />
+              ))
+            ) : (
+              <p className="product-listings-empty">No products found</p>
+            )}
+          </div>
+        </div>
   )
 }
 
