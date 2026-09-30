@@ -4,7 +4,7 @@ import ProductListings from './ProductListings'
 import products from '../data/products'
 function Home() {
   return (
-    <div className='home-container'>
+    <div className='max-w-[1152px] mx-auto px-6 py-8'>
         <PageHeading title = "Explore Jane Stickers!">
           Add a touch of creativity to your space with our wide range of fun and unique stickers.
           Perfect for any occassion!
