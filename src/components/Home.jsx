@@ -1,8 +1,24 @@
-import React from 'react'
 import PageHeading from './PageHeading'
 import ProductListings from './ProductListings'
-import products from '../data/products'
+import apiClient from '../api/apiClient'
+import { useState, useEffect } from 'react'
+
 function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await apiClient.get('/products');
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className='max-w-[1152px] mx-auto px-6 py-8'>
         <PageHeading title = "Explore Jane Stickers!">
