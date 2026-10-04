@@ -1,7 +1,7 @@
 import ProductCard from './ProductCard'
-import Dropdown from '../../../../../../Downloads/fullstack-react-springboot-main/fullstack-react-springboot-main/section8/eazystore-ui/src/components/Dropdown';
-import SearchBox from '../../../../../../Downloads/fullstack-react-springboot-main/fullstack-react-springboot-main/section8/eazystore-ui/src/components/SearchBox';
 import { useState, useMemo } from 'react';
+import SearchBox from './SearchBox';
+import DropDown from './DropDown';
 
 function ProductListings({products}) {
   const [searchText, setSearchText] = useState("");
@@ -43,7 +43,7 @@ function ProductListings({products}) {
                     value = {searchText}
                     handleSearch = {handleSearch}
                   />
-                  <Dropdown
+                  <DropDown 
                     label="Sort by"
                     options={sortList}
                     value = "Popularity"
