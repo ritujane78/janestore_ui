@@ -9,10 +9,11 @@ import Contact from './components/Contact.jsx'
 import Cart from './components/Cart.jsx'
 import About from './components/About.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
+import { productsLoader } from './components/Home.jsx'
 
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement = {<ErrorPage />}>
-    <Route index element={<Home />} />  
+    <Route index element={<Home />} loader={productsLoader} />  
     <Route path="/login" element={<Login />} />
     <Route path="/contact" element={<Contact />} />
     <Route path="/cart" element={<Cart />} />
