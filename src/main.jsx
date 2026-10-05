@@ -12,7 +12,7 @@ import ErrorPage from './components/ErrorPage.jsx'
 
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement = {<ErrorPage />}>
-    <Route index element={<Home />} />
+    <Route index element={<Home />} />  
     <Route path="/login" element={<Login />} />
     <Route path="/contact" element={<Contact />} />
     <Route path="/cart" element={<Cart />} />
