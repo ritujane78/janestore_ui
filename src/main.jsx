@@ -13,6 +13,7 @@ import { productsLoader } from './components/Home.jsx'
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductDetail from './components/ProductDetail.jsx'
+import { CartProvider } from './store/cart-context.jsx'
 
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement = {<ErrorPage />}>
@@ -26,39 +27,11 @@ const routeDefinitions = createRoutesFromElements(
 )
 const router = createBrowserRouter(routeDefinitions)
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//     errorElement: <ErrorPage />,
-//     children: [
-//       {
-//         index: true,
-//         element: <Home />
-//       },
-//       {
-//         path: "/login",
-//         element: <Login />
-//       },
-//       {
-//         path: "/contact",
-//         element: <Contact />
-//       },
-//       {
-//         path: "/cart",
-//         element: <Cart />
-//       },
-//       {
-//         path: "/about",
-//         element: <About />
-//       }
-//     ]
-//   }
-// ])
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />  
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>  
           <ToastContainer
             position="top-center"
             autoClose={3000}
