@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from "react-router-dom"
 import Home from './components/Home.jsx'
-import Login from './components/Login.jsx'
+import Login, { loginAction } from './components/Login.jsx'
 import Contact, { contactAction } from './components/Contact.jsx'
 import Cart from './components/Cart.jsx'
 import About from './components/About.jsx'
@@ -18,7 +18,7 @@ import { CartProvider } from './store/cart-context.jsx'
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement = {<ErrorPage />}>
     <Route index element={<Home />} loader={productsLoader} />  
-    <Route path="/login" element={<Login />} />
+    <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/contact" element={<Contact />} action={contactAction} />
     <Route path="/cart" element={<Cart />} />
     <Route path="/about" element={<About />} />
