@@ -3,15 +3,18 @@ import PageTitle from "./PageTitle";
 import { Link, Form, useActionData, useNavigate,useNavigation } from "react-router-dom";
 import apiClient from "../api/apiClient.js"
 import { toast } from "react-toastify";
+import {useAuth } from "../store/auth-context.jsx"
 
 export default function Login() {
   const actionData = useActionData();
+  const {loginSuccess} = useAuth();
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
   useEffect(() => {
     if(actionData?.success){
+      loginSuccess(actionData.jwtToken, actionData.user)
       navigate("/")
     } else if (actionData?.errors){
       toast.error(actionData.errors.message || "Login Failed.")
