@@ -1,7 +1,6 @@
 import PageHeading from './PageHeading'
 import ProductListings from './ProductListings'
 import apiClient from '../api/apiClient'
-import { useState, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom';
 
 function Home() {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PageTitle from "./PageTitle";
-import { Link, Form, useActionData, useNavigate,useNavigation, useLocation } from "react-router-dom";
+import { Link, Form, useActionData, useNavigate,useNavigation } from "react-router-dom";
 import apiClient from "../api/apiClient.js"
 import { toast } from "react-toastify";
 import {useAuth } from "../store/auth-context.jsx"
@@ -11,22 +11,19 @@ export default function Login() {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  const location = useLocation();
 
   const from =
-    localStorage.getItem("redirectPath") || "/";
+    sessionStorage.getItem("redirectPath") || "/";
 
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
-
-      localStorage.removeItem("redirectPath");
-
+      sessionStorage.removeItem("redirectPath");
       navigate(from);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login Failed.");
     }
-  }, [actionData, loginSuccess, navigate, from]);
+  }, [actionData]);
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";

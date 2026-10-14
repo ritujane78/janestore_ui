@@ -8,7 +8,7 @@ export default function ProtectedRoute() {
 
   useEffect(() => {
     if (!isAuthenticated && location.pathname !== "/login") {
-      localStorage.setItem("redirectPath", location.pathname);
+      sessionStorage.setItem("redirectPath", location.pathname);
     }
   }, [isAuthenticated, location.pathname]);
 
