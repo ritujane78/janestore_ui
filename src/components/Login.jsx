@@ -19,6 +19,7 @@ export default function Login() {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user);
       sessionStorage.removeItem("redirectPath");
+      console.log("ppage = ", from);
       navigate(from);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login Failed.");
