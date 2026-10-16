@@ -22,21 +22,46 @@ export default function Profile() {
 
   const [profileData, setProfileData] = useState(initialProfileData);
 
-  useEffect(() => {
-    if (actionData?.success) {
-      if (actionData.profileData.emailUpdated) {
-        sessionStorage.setItem("skipRedirectPath", "true");
-        logout();
-        toast.success(
-          "Logged out successfully! Login again with updated email"
-        );
-        navigate("/login");
-      } else {
-        toast.success("Your Profile details are saved successfully!");
-        setProfileData(actionData.profileData);
-      }
-    }
-  }, [actionData]);
+  // useEffect(() => {
+  //   if (actionData?.success) {
+  //     if (actionData.profileData.emailUpdated) {
+  //       sessionStorage.setItem("skipRedirectPath", "true");
+  //       logout();
+  //       toast.success(
+  //         "Logged out successfully! Login again with updated email"
+  //       );
+  //       navigate("/login");
+  //     } else {
+  //       toast.success("Your Profile details are saved successfully!");
+  //       setProfileData(actionData.profileData);
+  //     }
+  //   }
+  // }, [actionData]);
+
+  
+
+useEffect(() => {
+  if (!actionData?.success) return;
+
+  if (actionData.profileData.emailUpdated) {
+    // Prevent the old protected route from saving a redirect path.
+    sessionStorage.setItem("skipRedirectPath", "true");
+
+    // Log out and redirect immediately.
+    logout();
+    navigate("/login", { replace: true });
+
+    toast.success(
+      "Email updated successfully! Please log in with your new email."
+    );
+
+    return;
+  }
+
+  toast.success("Your profile details are saved successfully!");
+  setProfileData(actionData.profileData);
+}, [actionData, logout, navigate]);
+
 
   const labelStyle =
     "block text-lg font-semibold text-primary dark:text-light mb-2";

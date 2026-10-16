@@ -8,7 +8,7 @@ import {
   faL,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../store/cart-context.jsx";
 import { useAuth } from "../store/auth-context.jsx";
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ function Header() {
   });
   const isAdmin = true;
   const userMenuRef = useRef();
+  const navigate = useNavigate();
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
 

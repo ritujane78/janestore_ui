@@ -34,9 +34,13 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/products/:productId" element={<ProductDetail />} />
     <Route element = {<ProtectedRoute />} >
       <Route path='/checkout' element = {<CheckoutForm />} />
-      <Route path='/profile' element = {<Profile />} loader={profileLoader} action={profileAction} shouldRevalidate={
-        (actionResult)=>{
-          return !actionResult?.success
+      <Route path='/profile' element = {<Profile />} loader={profileLoader} action={profileAction}   shouldRevalidate={({ actionResult, defaultShouldRevalidate }) => {
+          // Do not reload the profile after a successful update.
+          if (actionResult?.success) {
+            return false;
+          }
+
+          return defaultShouldRevalidate;
         }}/>
       <Route path='/orders' element = { <Orders />} />
       <Route path='/admin/orders' element = { <AdminOrders />} />
