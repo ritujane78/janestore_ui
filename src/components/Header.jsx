@@ -17,16 +17,16 @@ function Header() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") === "dark" ? "dark" : "light";
   });
-  const isAdmin = true;
   const userMenuRef = useRef();
   const navigate = useNavigate();
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
-
+  
   const toggleAdminMenu = () => setAdminMenuOpen((prev) => !prev);
   const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
-
+  
   const { isAuthenticated, user, logout } = useAuth();
+  const isAdmin = user?.roles?.includes("ROLE_ADMIN");
   const { totalQuantity } = useCart();
 
   useEffect(() => {
