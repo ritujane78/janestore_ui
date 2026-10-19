@@ -25,6 +25,7 @@ import Register, { registerAction } from './components/Register.jsx';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js'
 import OrderSuccess from './components/OrderSuccess.jsx'
+import { ordersLoader } from './components/Orders.jsx'
 
 const stripePromise = loadStripe(
   "pk_test_51RGczH4N2Kx5MDwEZkYDx5oNfMz1bfKx71glMYCrZwB49OV7aPKEd5XmDLOM1MNb38aA46xon5WI36FO4YMBnKVV00JOjh4bAV"
@@ -48,7 +49,7 @@ const routeDefinitions = createRoutesFromElements(
 
           return defaultShouldRevalidate;
         }}/>
-      <Route path='/orders' element = { <Orders />} />
+      <Route path='/orders' element = { <Orders />} loader={ordersLoader}/>
       <Route path='/admin/orders' element = { <AdminOrders />} />
       <Route path='admin/messages' element = { <Messages />} />
       <Route path="/order-success" element={<OrderSuccess />} />
