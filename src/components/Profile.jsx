@@ -18,49 +18,49 @@ export default function Profile() {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const isSubmitting = navigation.state === "submitting";
-  const { logout } = useAuth();
+  const { user, jwtToken, loginSuccess, logout } = useAuth();
 
   const [profileData, setProfileData] = useState(initialProfileData);
 
-  // useEffect(() => {
-  //   if (actionData?.success) {
-  //     if (actionData.profileData.emailUpdated) {
-  //       sessionStorage.setItem("skipRedirectPath", "true");
-  //       logout();
-  //       toast.success(
-  //         "Logged out successfully! Login again with updated email"
-  //       );
-  //       navigate("/login");
-  //     } else {
-  //       toast.success("Your Profile details are saved successfully!");
-  //       setProfileData(actionData.profileData);
-  //     }
-  //   }
-  // }, [actionData]);
+  useEffect(() => {
+    if (actionData?.success) {
+      if (actionData.profileData.emailUpdated) {
+        sessionStorage.setItem("skipRedirectPath", "true");
+        logout();
+        toast.success(
+          "Logged out successfully! Login again with updated email"
+        );
+        navigate("/login");
+      } else {
+        setProfileData((prev) => ({
+          ...prev,
+          ...actionData.profileData,
+          address: {
+            ...prev.address,
+            ...actionData.profileData.address,
+          },
+        }));
+        toast.success("Your Profile details are saved successfully!");
+        // Update the user object in auth context and localStorage
+        if (actionData?.profileData) {
+          
+          const updatedUser = {
+            ...user,
+            ...actionData.profileData,
+            address: {
+              ...user?.address,
+              ...actionData.profileData.address,
+            },
+            roles: user?.roles,
+          };
 
-  
-
-useEffect(() => {
-  if (!actionData?.success) return;
-
-  if (actionData.profileData.emailUpdated) {
-    // Prevent the old protected route from saving a redirect path.
-    sessionStorage.setItem("skipRedirectPath", "true");
-
-    // Log out and redirect immediately.
-    logout();
-    navigate("/login", { replace: true });
-
-    toast.success(
-      "Email updated successfully! Please log in with your new email."
-    );
-
-    return;
-  }
-
-  toast.success("Your profile details are saved successfully!");
-  setProfileData(actionData.profileData);
-}, [actionData, logout, navigate]);
+          loginSuccess(jwtToken, updatedUser);
+          // Update in context
+          loginSuccess(localStorage.getItem("jwtToken"), updatedUser);
+        }
+      }
+    }
+  }, [actionData]);
 
 
   const labelStyle =
@@ -164,11 +164,14 @@ useEffect(() => {
             name="street"
             type="text"
             placeholder="Street details"
-            value={profileData.street}
+            value={profileData?.address?.street}
             onChange={(e) =>
               setProfileData((prev) => ({
                 ...prev,
-                street: e.target.value,
+                address: {
+                  ...prev.address,
+                  street: e.target.value,
+                },
               }))
             }
             className={textFieldStyle}
@@ -193,11 +196,14 @@ useEffect(() => {
               name="city"
               type="text"
               placeholder="Your City"
-              value={profileData.city}
+              value={profileData?.address?.city}
               onChange={(e) =>
                 setProfileData((prev) => ({
                   ...prev,
-                  city: e.target.value,
+                  address: {
+                    ...prev.address,
+                    city: e.target.value,
+                  },
                 }))
               }
               className={textFieldStyle}
@@ -224,11 +230,14 @@ useEffect(() => {
               minLength={2}
               maxLength={30}
               placeholder="Your State"
-              value={profileData.state}
+              value={profileData?.address?.state}
               onChange={(e) =>
                 setProfileData((prev) => ({
                   ...prev,
-                  state: e.target.value,
+                  address: {
+                    ...prev.address,
+                    state: e.target.value,
+                  },
                 }))
               }
               className={textFieldStyle}
@@ -251,11 +260,14 @@ useEffect(() => {
               name="postalCode"
               type="text"
               placeholder="Your Postal Code"
-              value={profileData.postalCode}
+              value={profileData?.address?.postalCode}
               onChange={(e) =>
                 setProfileData((prev) => ({
                   ...prev,
-                  postalCode: e.target.value,
+                  address: {
+                    ...prev.address,
+                    postalCode: e.target.value,
+                  },
                 }))
               }
               className={textFieldStyle}
@@ -279,14 +291,17 @@ useEffect(() => {
               name="country"
               type="text"
               required
-              minLength={3}
-              maxLength={30}
+              minLength={2}
+              maxLength={6}
               placeholder="Your Country"
-              value={profileData.country}
+              value={profileData?.address?.country}
               onChange={(e) =>
                 setProfileData((prev) => ({
                   ...prev,
-                  country: e.target.value,
+                  address: {
+                    ...prev.address,
+                    country: e.target.value,
+                  },
                 }))
               }
               className={textFieldStyle}
@@ -322,7 +337,7 @@ export async function profileLoader() {
       error.response?.data?.errorMessage ||
         error.message ||
         "Failed to fetch profile details. Please try again.",
-      { status: error.status || 500 }
+      { status: error.status || 500 },
     );
   }
 }
@@ -351,7 +366,7 @@ export async function profileAction({ request }) {
       error.response?.data?.errorMessage ||
         error.message ||
         "Failed to save profile details. Please try again.",
-      { status: error.status || 500 }
+      { status: error.status || 500 },
     );
   }
 }

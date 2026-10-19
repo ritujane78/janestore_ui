@@ -21,8 +21,14 @@ import Profile, { profileAction, profileLoader } from "./components/Profile.jsx"
 import Orders from "./components/Orders.jsx";
 import AdminOrders from "./components/admin/AdminOrders.jsx";
 import Messages from "./components/admin/Messages.jsx"; 
-import Register, { registerAction } from './components/Register.jsx'
+import Register, { registerAction } from './components/Register.jsx';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js'
+import OrderSuccess from './components/OrderSuccess.jsx'
 
+const stripePromise = loadStripe(
+  "pk_test_51RGczH4N2Kx5MDwEZkYDx5oNfMz1bfKx71glMYCrZwB49OV7aPKEd5XmDLOM1MNb38aA46xon5WI36FO4YMBnKVV00JOjh4bAV"
+);
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement = {<ErrorPage />}>
     <Route index element={<Home />} loader={productsLoader} />  
@@ -45,6 +51,7 @@ const routeDefinitions = createRoutesFromElements(
       <Route path='/orders' element = { <Orders />} />
       <Route path='/admin/orders' element = { <AdminOrders />} />
       <Route path='admin/messages' element = { <Messages />} />
+      <Route path="/order-success" element={<OrderSuccess />} />
     </Route>
   </Route>
 )
@@ -52,6 +59,7 @@ const router = createBrowserRouter(routeDefinitions)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Elements stripe={stripePromise}>
     <AuthProvider>
       <CartProvider>
         <RouterProvider router={router} />
@@ -66,6 +74,7 @@ createRoot(document.getElementById('root')).render(
             pauseOnHover
             theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
             transition={Bounce}
-          />
+            />
+    </Elements>
   </StrictMode>,
 )
