@@ -13,7 +13,6 @@ import { productsLoader } from './components/Home.jsx'
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductDetail from './components/ProductDetail.jsx'
-import { CartProvider } from './store/cart-context.jsx'
 import {AuthProvider} from './store/auth-context.jsx'
 import CheckoutForm from './components/CheckoutForm.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -26,6 +25,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js'
 import OrderSuccess from './components/OrderSuccess.jsx'
 import { ordersLoader } from './components/Orders.jsx'
+import store from './store/store.js';
+import { Provider } from 'react-redux'
 
 const stripePromise = loadStripe(
   "pk_test_51RGczH4N2Kx5MDwEZkYDx5oNfMz1bfKx71glMYCrZwB49OV7aPKEd5XmDLOM1MNb38aA46xon5WI36FO4YMBnKVV00JOjh4bAV"
@@ -62,9 +63,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Elements stripe={stripePromise}>
     <AuthProvider>
-      <CartProvider>
+      <Provider store={store}>
         <RouterProvider router={router} />
-      </CartProvider>
+      </Provider>
     </AuthProvider>  
           <ToastContainer
             position="top-center"

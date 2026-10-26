@@ -9,7 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useCart } from "../store/cart-context.jsx";
+import { useSelector } from "react-redux";
+import { selectTotalQuantity } from "../store/cart-slice.js";
 import { useAuth } from "../store/auth-context.jsx";
 import { toast } from "react-toastify";
 
@@ -27,7 +28,7 @@ function Header() {
   
   const { isAuthenticated, user, logout } = useAuth();
   const isAdmin = user?.roles?.includes("ROLE_ADMIN");
-  const { totalQuantity } = useCart();
+  const totalQuantity = useSelector(selectTotalQuantity);
 
   useEffect(() => {
       if (theme === "dark") {
