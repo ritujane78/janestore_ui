@@ -9,9 +9,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { selectTotalQuantity } from "../store/cart-slice.js";
-import { useAuth } from "../store/auth-context.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser,selectIsAuthenticated, logout } from "../store/auth-slice.js";
 import { toast } from "react-toastify";
 
 function Header() {
@@ -26,8 +26,11 @@ function Header() {
   const toggleAdminMenu = () => setAdminMenuOpen((prev) => !prev);
   const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
   
-  const { isAuthenticated, user, logout } = useAuth();
+  
+  const user = useSelector(selectUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const isAdmin = user?.roles?.includes("ROLE_ADMIN");
+  const dispatch = useDispatch();
   const totalQuantity = useSelector(selectTotalQuantity);
 
   useEffect(() => {
@@ -56,7 +59,7 @@ function Header() {
   };
   const handleLogout = (e) => {
       e.preventDefault();
-      logout();
+      dispatch(logout());
       toast.success("Logged out successfully!");
       navigate("/");
     };

@@ -13,7 +13,6 @@ import { productsLoader } from './components/Home.jsx'
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductDetail from './components/ProductDetail.jsx'
-import {AuthProvider} from './store/auth-context.jsx'
 import CheckoutForm from './components/CheckoutForm.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Profile, { profileAction, profileLoader } from "./components/Profile.jsx";
@@ -62,11 +61,9 @@ const router = createBrowserRouter(routeDefinitions)
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Elements stripe={stripePromise}>
-    <AuthProvider>
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>
-    </AuthProvider>  
           <ToastContainer
             position="top-center"
             autoClose={3000}

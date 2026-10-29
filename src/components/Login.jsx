@@ -3,11 +3,12 @@ import PageTitle from "./PageTitle";
 import { Link, Form, useActionData, useNavigate,useNavigation } from "react-router-dom";
 import apiClient from "../api/apiClient.js"
 import { toast } from "react-toastify";
-import {useAuth } from "../store/auth-context.jsx"
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../store/auth-slice.js";
 
 export default function Login() {
   const actionData = useActionData();
-  const {loginSuccess} = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
@@ -17,7 +18,7 @@ export default function Login() {
 
   useEffect(() => {
     if (actionData?.success) {
-      loginSuccess(actionData.jwtToken, actionData.user);
+      dispatch(loginSuccess({jwtToken: actionData.jwtToken, user: actionData.user}));
       sessionStorage.removeItem("redirectPath");
       setTimeout(()=>{navigate(from);}, 1000);
       
